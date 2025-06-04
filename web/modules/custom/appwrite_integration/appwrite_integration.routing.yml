@@ -1,0 +1,25 @@
+appwrite_integration.config:
+  path: '/admin/config/services/appwrite'
+  defaults:
+    _form: '\Drupal\appwrite_integration\Form\AppwriteConfigForm'
+    _title: 'Appwrite Integration Settings'
+  requirements:
+    _permission: 'administer site configuration'
+
+appwrite_integration.success:
+  path: '/appwrite/success'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::success'
+    _title: 'OAuth Success'
+  requirements:
+    _permission: 'access content'
+  methods: [POST]
+
+  
+appwrite_integration.bridge:
+  path: '/appwrite/bridge'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\BridgeController::bridge'
+    _title: 'Appwrite Token Bridge'
+  requirements:
+    _permission: 'access content'

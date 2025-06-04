@@ -1,0 +1,8 @@
+name: 'Appwrite Integration'
+type: module
+description: 'Integrates Appwrite services (OAuth, Storage, DB) with Drupal.'
+package: 'Appwrite'
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:user
+  - drupal:system

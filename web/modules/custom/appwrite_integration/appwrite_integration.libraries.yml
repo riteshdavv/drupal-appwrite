@@ -1,0 +1,7 @@
+appwrite_oauth:
+  version: 1.x
+  js:
+    js/appwrite-oauth.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

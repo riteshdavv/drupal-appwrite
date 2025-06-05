@@ -1,25 +1,31 @@
-appwrite_integration.config:
-  path: '/admin/config/services/appwrite'
+appwrite_integration.login:
+  path: "/appwrite/login"
   defaults:
-    _form: '\Drupal\appwrite_integration\Form\AppwriteConfigForm'
-    _title: 'Appwrite Integration Settings'
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::login'
+    _title: "Login with GitHub"
   requirements:
-    _permission: 'administer site configuration'
+    _permission: "access content"
 
-appwrite_integration.success:
-  path: '/appwrite/success'
+appwrite_integration.dashboard:
+  path: "/appwrite/dashboard"
   defaults:
-    _controller: '\Drupal\appwrite_integration\Controller\AuthController::success'
-    _title: 'OAuth Success'
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::dashboard'
+    _title: "Dashboard"
   requirements:
-    _permission: 'access content'
-  methods: [POST]
+    _permission: "access content"
 
-  
-appwrite_integration.bridge:
-  path: '/appwrite/bridge'
+appwrite_integration.logout:
+  path: "/appwrite/logout"
   defaults:
-    _controller: '\Drupal\appwrite_integration\Controller\BridgeController::bridge'
-    _title: 'Appwrite Token Bridge'
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::logout'
+    _title: "Logout"
   requirements:
-    _permission: 'access content'
+    _permission: "access content"
+
+appwrite_integration.auth_callback:
+  path: "/appwrite/auth/callback"
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::authCallback'
+    _title: "Auth Callback"
+  requirements:
+    _permission: "access content"

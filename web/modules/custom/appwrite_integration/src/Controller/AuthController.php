@@ -2,41 +2,80 @@
 
 namespace Drupal\appwrite_integration\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\Core\Controller\ControllerBase;
-use Appwrite\Client;
-use Appwrite\Services\Account;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Drupal\Core\Url;
 
+/**
+ * Controller for Appwrite OAuth integration.
+ */
 class AuthController extends ControllerBase {
 
-  public function success(Request $request) {
-    $data = json_decode($request->getContent(), true);
-    $secret = $data['secret'] ?? null;
+  /**
+   * Login page with GitHub OAuth button.
+   */
+  public function login() {
+    $build = [
+      '#theme' => 'appwrite_integration_login',
+      '#attached' => [
+        'library' => [
+          'appwrite_integration/appwrite-auth',
+        ],
+      ],
+    ];
 
-    if (!$secret) {
-      return new JsonResponse(['error' => 'Token missing'], 400);
-    }
-
-    // Initialize Appwrite Client
-    $client = new Client();
-    $client
-      ->setEndpoint('https://fra.cloud.appwrite.io/v1') // Replace with your actual endpoint
-      ->setProject('683ea5970037a0cd8c8b') // Replace with your actual project ID
-      ->setSession($secret); // <-- Use the session token here
-
-    $account = new Account($client);
-    $session = $account->getSession('current');
-
-    try {
-      $user = $account->get();
-      // Store user info or log them in, optionally
-      \Drupal::messenger()->addMessage('Welcome, ' . $user['name']);
-      return new JsonResponse(['status' => 'Login successful']);
-    }
-    catch (\Exception $e) {
-      \Drupal::logger('appwrite_integration')->error($e->getMessage());
-      return new JsonResponse(['error' => 'OAuth failed: ' . $e->getMessage()], 500);
-    }
+    return $build;
   }
+
+  /**
+   * Dashboard page for authenticated users.
+   */
+  public function dashboard() {
+    $build = [
+      '#theme' => 'appwrite_integration_dashboard',
+      '#attached' => [
+        'library' => [
+          'appwrite_integration/appwrite-auth',
+        ],
+      ],
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Auth callback handler.
+   */
+  public function authCallback() {
+    $build = [
+      '#theme' => 'appwrite_integration_callback',
+      '#attached' => [
+        'library' => [
+          'appwrite_integration/appwrite-auth',
+        ],
+      ],
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Logout handler.
+   */
+  public function logout() {
+    // JavaScript will handle the actual logout and redirect
+    $build = [
+      '#markup' => '<div id="logout-handler">Logging out...</div>',
+      '#attached' => [
+        'library' => [
+          'appwrite_integration/appwrite-auth',
+        ],
+      ],
+    ];
+
+    return $build;
+  }
+
 }

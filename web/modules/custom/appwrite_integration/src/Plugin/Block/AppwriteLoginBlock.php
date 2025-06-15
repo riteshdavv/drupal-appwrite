@@ -3,9 +3,10 @@
 namespace Drupal\appwrite_integration\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Url;
 
 /**
- * Provides an Appwrite login button.
+ * Provides an Appwrite login button block.
  *
  * @Block(
  *   id = "appwrite_login_block",
@@ -18,14 +19,19 @@ class AppwriteLoginBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $login_url = "https://drupal-appwrite.ddev.site/appwrite/login";
+    $google_url = Url::fromUri('internal:/appwrite/google/login')->toString();
+    $github_url = Url::fromUri('internal:/appwrite/github/login')->toString();
+
+    $markup = '
+      <div class="appwrite-login-buttons">
+        <a href="' . $google_url . '"><button class="button appwrite-login-google">Login with Google</button></a>
+        <a href="' . $github_url . '"><button class="button appwrite-login-github">Login with GitHub</button></a>
+      </div>
+    ';
 
     return [
-      '#markup' => 
-        '<a href="' . $login_url . '"><button class="button">Login with GitHub</button></a>',
-      '#attached' => [
-        'library' => [],
-      ],
+      '#markup' => $markup,
+      '#allowed_tags' => ['div', 'a', 'button'],
     ];
   }
 

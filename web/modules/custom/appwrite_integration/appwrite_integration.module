@@ -1,3 +1,15 @@
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Render\AttachmentsInterface;
+
+function appwrite_integration_preprocess_page(&$variables) {
+  $config = \Drupal::config('appwrite_integration.settings');
+
+  $variables['#attached']['drupalSettings']['appwrite_integration'] = [
+    'endpoint' => $config->get('endpoint'),
+    'project_id' => $config->get('project_id'),
+  ];
+}
+
 <?php
 
 /**

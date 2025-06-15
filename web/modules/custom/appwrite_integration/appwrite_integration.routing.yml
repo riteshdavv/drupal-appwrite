@@ -1,5 +1,13 @@
-appwrite_integration.login:
-  path: "/appwrite/login"
+appwrite_integration.google_login:
+  path: "/appwrite/google/login"
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::login'
+    _title: "Login with Google"
+  requirements:
+    _permission: "access content"
+
+appwrite_integration.github_login:
+  path: "/appwrite/github/login"
   defaults:
     _controller: '\Drupal\appwrite_integration\Controller\AuthController::login'
     _title: "Login with GitHub"

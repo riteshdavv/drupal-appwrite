@@ -3,9 +3,10 @@
 namespace Drupal\appwrite_integration\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Url;
 
 /**
- * Provides an Appwrite login button.
+ * Provides an Appwrite login button block.
  *
  * @Block(
  *   id = "appwrite_login_block",
@@ -18,19 +19,19 @@ class AppwriteLoginBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $appwrite_endpoint = 'https://fra.cloud.appwrite.io/v1';
-    $project_id = '683ea5970037a0cd8c8b'; // Replace with actual Appwrite project ID
-    $success_url = 'http://drupal-appwrite.ddev.site/appwrite/bridge';
-    $failure_url = 'http://drupal-appwrite.ddev.site/appwrite/failure';
+    $google_url = Url::fromUri('internal:/appwrite/google/login')->toString();
+    $github_url = Url::fromUri('internal:/appwrite/github/login')->toString();
 
-    $login_url = "{$appwrite_endpoint}/account/sessions/oauth2/github?project={$project_id}&success={$success_url}&failure={$failure_url}&token=true";
+    $markup = '
+      <div class="appwrite-login-buttons">
+        <a href="' . $google_url . '"><button class="button appwrite-login-google">Login with Google</button></a>
+        <a href="' . $github_url . '"><button class="button appwrite-login-github">Login with GitHub</button></a>
+      </div>
+    ';
 
     return [
-      '#markup' => 
-        '<a href="' . $login_url . '"><button class="button">Login with GitHub</button></a>',
-      '#attached' => [
-        'library' => [], // You can attach a custom CSS/JS library if needed
-      ],
+      '#markup' => $markup,
+      '#allowed_tags' => ['div', 'a', 'button'],
     ];
   }
 

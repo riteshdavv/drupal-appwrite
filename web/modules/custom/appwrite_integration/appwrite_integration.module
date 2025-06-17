@@ -1,0 +1,50 @@
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Render\AttachmentsInterface;
+
+function appwrite_integration_preprocess_page(&$variables) {
+  $config = \Drupal::config('appwrite_integration.settings');
+
+  $variables['#attached']['drupalSettings']['appwrite_integration'] = [
+    'endpoint' => $config->get('endpoint'),
+    'project_id' => $config->get('project_id'),
+  ];
+}
+
+<?php
+
+/**
+ * @file
+ * Appwrite OAuth module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function appwrite_integration_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.appwrite_integration':
+      return '<p>' . t('Provides OAuth integration with Appwrite using GitHub provider.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function appwrite_integration_theme() {
+  return [
+    'appwrite_integration_login' => [
+      'variables' => [],
+      'template' => 'appwrite-oauth-login',
+    ],
+    'appwrite_integration_dashboard' => [
+      'variables' => [],
+      'template' => 'appwrite-oauth-dashboard',
+    ],
+    'appwrite_integration_callback' => [
+      'variables' => [],
+      'template' => 'appwrite-oauth-callback',
+    ],
+  ];
+}

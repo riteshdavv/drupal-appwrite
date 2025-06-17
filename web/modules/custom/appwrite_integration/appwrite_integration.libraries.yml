@@ -1,7 +1,7 @@
-appwrite_oauth:
-  version: 1.x
+appwrite-auth:
   js:
-    js/appwrite-oauth.js: {}
+    js/appwrite-auth.js: {}
   dependencies:
     - core/drupal
     - core/jquery
+  header: true

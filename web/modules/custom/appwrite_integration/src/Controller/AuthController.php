@@ -13,21 +13,49 @@ use Drupal\Core\Url;
  */
 class AuthController extends ControllerBase {
 
+  // /**
+  //  * Login page with GitHub OAuth button.
+  //  */
+  // public function login() {
+  //   $build = [
+  //     '#theme' => 'appwrite_integration_login',
+  //     '#attached' => [
+  //       'library' => [
+  //         'appwrite_integration/appwrite-auth',
+  //       ],
+  //     ],
+  //   ];
+
+  //   return $build;
+  // }
+
+
   /**
-   * Login page with GitHub OAuth button.
+   * Dynamic “Login with …” page.
    */
-  public function login() {
-    $build = [
+  public function login($provider) {
+    return [
       '#theme' => 'appwrite_integration_login',
       '#attached' => [
-        'library' => [
-          'appwrite_integration/appwrite-auth',
+        'library' => ['appwrite_integration/appwrite-auth'],
+        // Tell JS which provider we’re on, if you want:
+        'drupalSettings' => [
+          'appwrite_integration' => [
+            'provider' => $provider,
+          ],
         ],
       ],
     ];
-
-    return $build;
   }
+
+  /**
+   * Dynamic page title callback.
+   */
+  public function loginTitle($provider) {
+    return $this->t('Sign in with @provider', ['@provider' => ucfirst($provider)]);
+  }
+
+
 
   /**
    * Dashboard page for authenticated users.

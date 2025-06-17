@@ -70,17 +70,29 @@
   }
 
   async function loginWithGoogle() {
+    console.log('loginWithGoogle called');
     showLoading('Redirecting to Google...');
     const success = `${window.location.origin}/appwrite/auth/callback#token=true`;
-    const failure = `${window.location.origin}/appwrite/login?error=1`;
-    account.createOAuth2Session('google', success, failure);
+    const failure = `${window.location.origin}/appwrite/google/login?error=1`;
+    try {
+      account.createOAuth2Session('google', success, failure);
+    } catch (error) {
+      console.error('Google login error:', error);
+      showError('Failed to initiate Google login');
+    }
   }
 
   async function loginWithGitHub() {
+    console.log('loginWithGitHub called');
     showLoading('Redirecting to GitHub...');
     const success = `${window.location.origin}/appwrite/auth/callback#token=true`;
-    const failure = `${window.location.origin}/appwrite/login?error=1`;
-    account.createOAuth2Session('github', success, failure);
+    const failure = `${window.location.origin}/appwrite/github/login?error=1`;
+    try {
+      account.createOAuth2Session('github', success, failure);
+    } catch (error) {
+      console.error('GitHub login error:', error);
+      showError('Failed to initiate GitHub login');
+    }
   }
 
   async function handleAuthCallback() {
@@ -105,7 +117,7 @@
       } catch (e) {
         console.error('Callback error:', e);
         showError('Authentication failed. Please try again.');
-        setTimeout(() => window.location.href = '/appwrite/login?error=1', 2000);
+        setTimeout(() => window.location.href = '/appwrite/google/login?error=1', 2000);
       }
     }
   }
@@ -114,7 +126,7 @@
     showLoading('Loading dashboard...');
     const session = localStorage.getItem('sessionActive');
     if (!session) {
-      window.location.href = '/appwrite/login';
+      window.location.href = '/appwrite/google/login';
       return;
     }
 
@@ -126,7 +138,7 @@
       console.error('Dashboard load error:', error);
       localStorage.clear();
       showError('Session expired. Redirecting...');
-      setTimeout(() => window.location.href = '/appwrite/login', 2000);
+      setTimeout(() => window.location.href = '/appwrite/google/login', 2000);
     }
   }
 
@@ -139,7 +151,7 @@
     }
     localStorage.clear();
     showSuccess('Logged out successfully');
-    setTimeout(() => window.location.href = '/appwrite/login', 1500);
+    setTimeout(() => window.location.href = '/appwrite/google/login', 1500);
   }
 
   function displayUserInfo(user) {
@@ -158,23 +170,65 @@
   }
 
   $(document).ready(async function () {
+    console.log('Document ready, current path:', window.location.pathname);
+    console.log('Drupal settings:', window.drupalSettings);
+    
     const init = await initializeAppwrite();
-    if (!init) return;
+    if (!init) {
+      console.error('Appwrite initialization failed');
+      return;
+    }
 
     const path = window.location.pathname;
 
     if (path === '/appwrite/google/login') {
-      $('#google-login-btn').on('click', loginWithGoogle);
+      console.log('On Google login page');
+      // Check if button exists
+      const button = document.getElementById('google-login-btn');
+      console.log('Google login button found:', button);
+      
+      $('#google-login-btn').on('click', function(e) {
+        e.preventDefault();
+        console.log('Google login button clicked');
+        loginWithGoogle();
+      });
+      
     } else if (path === '/appwrite/github/login') {
-      $('#github-login-btn').on('click', loginWithGitHub);
+      console.log('On GitHub login page');
+      // Check if button exists
+      const button = document.getElementById('github-login-btn');
+      console.log('GitHub login button found:', button);
+      
+      $('#github-login-btn').on('click', function(e) {
+        e.preventDefault();
+        console.log('GitHub login button clicked');
+        loginWithGitHub();
+      });
+      
     } else if (path === '/appwrite/auth/callback') {
+      console.log('On auth callback page');
       handleAuthCallback();
     } else if (path === '/appwrite/dashboard') {
+      console.log('On dashboard page');
       loadDashboard();
       $('#logout-btn').on('click', logout);
     } else if (path === '/appwrite/logout') {
+      console.log('On logout page');
       logout();
     }
+
+    // Also handle clicks from the login block (works on any page)
+    $(document).on('click', '.appwrite-login-google', function(e) {
+      e.preventDefault();
+      console.log('Google login clicked (via class)');
+      loginWithGoogle();
+    });
+
+    $(document).on('click', '.appwrite-login-github', function(e) {
+      e.preventDefault();
+      console.log('GitHub login clicked (via class)');
+      loginWithGitHub();
+    });
   });
 
 })(jQuery, Drupal);

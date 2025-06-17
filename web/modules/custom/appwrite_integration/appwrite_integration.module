@@ -1,15 +1,3 @@
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Render\AttachmentsInterface;
-
-function appwrite_integration_preprocess_page(&$variables) {
-  $config = \Drupal::config('appwrite_integration.settings');
-
-  $variables['#attached']['drupalSettings']['appwrite_integration'] = [
-    'endpoint' => $config->get('endpoint'),
-    'project_id' => $config->get('project_id'),
-  ];
-}
-
 <?php
 
 /**
@@ -46,5 +34,17 @@ function appwrite_integration_theme() {
       'variables' => [],
       'template' => 'appwrite-oauth-callback',
     ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function appwrite_integration_page_attachments(array &$attachments) {
+  $config = \Drupal::config('appwrite_integration.settings');
+
+  $attachments['#attached']['drupalSettings']['appwrite_integration'] = [
+    'endpoint' => $config->get('endpoint'),
+    'project_id' => $config->get('project_id'),
   ];
 }

@@ -13,23 +13,6 @@ use Drupal\Core\Url;
  */
 class AuthController extends ControllerBase {
 
-  // /**
-  //  * Login page with GitHub OAuth button.
-  //  */
-  // public function login() {
-  //   $build = [
-  //     '#theme' => 'appwrite_integration_login',
-  //     '#attached' => [
-  //       'library' => [
-  //         'appwrite_integration/appwrite-auth',
-  //       ],
-  //     ],
-  //   ];
-
-  //   return $build;
-  // }
-
-
   /**
    * Dynamic “Login with …” page.
    */

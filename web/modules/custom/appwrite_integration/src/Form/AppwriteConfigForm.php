@@ -50,11 +50,10 @@ class AppwriteConfigForm extends ConfigFormBase {
       '#type' => 'checkboxes',
       '#title' => $this->t('Enabled OAuth Providers'),
       '#options' => [
-        'github' => $this->t('GitHub'),
         'google' => $this->t('Google'),
-        'facebook' => $this->t('Facebook'),
+        'github' => $this->t('GitHub')
       ],
-      '#default_value' => $config->get('oauth_providers') ?: ['github'],
+      '#default_value' => $config->get('oauth_providers') ?: ['github', 'google'],
     ];
 
     return parent::buildForm($form, $form_state);

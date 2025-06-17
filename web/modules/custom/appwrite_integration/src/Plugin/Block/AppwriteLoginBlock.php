@@ -19,8 +19,8 @@ class AppwriteLoginBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $google_url = Url::fromUri('internal:/appwrite/google/login')->toString();
-    $github_url = Url::fromUri('internal:/appwrite/github/login')->toString();
+    $google_url = Url::fromRoute('appwrite_integration.oauth_login', ['provider' => 'google'])->toString();
+    $github_url = Url::fromRoute('appwrite_integration.oauth_login', ['provider' => 'github'])->toString();
 
     $markup = '
       <div class="appwrite-login-buttons">
@@ -32,6 +32,9 @@ class AppwriteLoginBlock extends BlockBase {
     return [
       '#markup' => $markup,
       '#allowed_tags' => ['div', 'a', 'button'],
+      '#attached' => [
+        'library' => ['appwrite_integration/appwrite-auth'],
+      ]
     ];
   }
 

@@ -1,0 +1,20 @@
+services:
+  appwrite_integration.user_role_mapper:
+    class: Drupal\appwrite_integration\Service\AppwriteUserRoleMapper
+    arguments: ['@entity_type.manager', '@logger.factory']
+    
+  appwrite_integration.commands:
+    class: Drupal\appwrite_integration\Commands\AppwriteSyncCommands
+    arguments: ['@appwrite_integration.user_role_mapper']
+    tags:
+      - { name: drush.command }
+      
+  appwrite_integration.oauth_helper:
+    class: Drupal\appwrite_integration\Service\OAuthHelper
+    arguments: ['@http_client', '@logger.factory', '@config.factory']
+    
+  appwrite_integration.user_sync_queue:
+    class: Drupal\appwrite_integration\Plugin\QueueWorker\UserSyncQueueWorker
+    arguments: ['@appwrite_integration.user_role_mapper']
+    tags:
+      - { name: plugin.manager.queue_worker }

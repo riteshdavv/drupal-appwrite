@@ -6,8 +6,6 @@ appwrite_integration.settings:
   requirements:
     _permission: 'administer site configuration'
 
-
-
 # General login route that takes {provider} as a parameter
 appwrite_integration.oauth_login:
   path: '/appwrite/{provider}/login'
@@ -44,3 +42,27 @@ appwrite_integration.logout:
     _title: 'Logging out…'
   requirements:
     _permission: 'access content'
+
+appwrite_integration.webhook.users:
+  path: '/appwrite/webhook/users'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteWebhookController::handleUserWebhook'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+
+appwrite_integration.webhook.health:
+  path: '/appwrite/webhook/health'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteWebhookController::healthCheck'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+appwrite_integration.finalize_login:
+  path: '/appwrite/oauth/finalize-login'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::finalizeLogin'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'

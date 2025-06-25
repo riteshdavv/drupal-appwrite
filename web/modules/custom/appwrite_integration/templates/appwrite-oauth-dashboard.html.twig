@@ -12,6 +12,17 @@
     <div id="dashboard-content" class="dashboard-content">
       <!-- User info will be loaded here by JavaScript -->
     </div>
+
+    {% if drupal_user %}
+      <div class="dashboard-content user-info">
+        <h2>Drupal User Sync Info</h2>
+        <div class="user-details">
+          <p><strong>Drupal User ID:</strong> {{ drupal_user.id }}</p>
+          <p><strong>Roles:</strong> {{ drupal_user.roles|join(', ') }}</p>
+          <p><strong>Stored Appwrite ID:</strong> {{ drupal_user.appwrite_id }}</p>
+        </div>
+      </div>
+    {% endif %}
   </div>
 </div>
 

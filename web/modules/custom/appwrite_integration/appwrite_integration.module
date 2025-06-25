@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
 
 /**
  * Implements hook_help().
@@ -27,7 +29,7 @@ function appwrite_integration_theme() {
       'template' => 'appwrite-oauth-login',
     ],
     'appwrite_integration_dashboard' => [
-      'variables' => [],
+      'variables' => ['drupal_user' => NULL],
       'template' => 'appwrite-oauth-dashboard',
     ],
     'appwrite_integration_callback' => [
@@ -48,3 +50,30 @@ function appwrite_integration_page_attachments(array &$attachments) {
     'project_id' => $config->get('project_id'),
   ];
 }
+
+/**
+ * Implements hook_install().
+ */
+function appwrite_integration_install() {
+  // Create field storage if not exists.
+  if (!FieldStorageConfig::loadByName('user', 'field_appwrite_id')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_appwrite_id',
+      'entity_type' => 'user',
+      'type' => 'string',
+      'cardinality' => 1,
+      'translatable' => FALSE,
+    ])->save();
+  }
+
+  // Create field instance on user bundle.
+  if (!FieldConfig::loadByName('user', 'user', 'field_appwrite_id')) {
+    FieldConfig::create([
+      'field_name' => 'field_appwrite_id',
+      'entity_type' => 'user',
+      'bundle' => 'user',
+      'label' => 'Appwrite ID',
+    ])->save();
+  }
+}
+

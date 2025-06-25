@@ -1,21 +1,5 @@
 <div class="appwrite-login-page">
   <div class="login-container">
-    <h2>{{ 'Sign in with @provider'|t({'@provider': drupalSettings.appwrite_integration.provider|title}) }}</h2>
-    
-    {% set provider = drupalSettings.appwrite_integration.provider %}
-    
-    {% if provider == 'google' %}
-      <button id="google-login-btn" class="button button--primary appwrite-login-google">
-        <span class="login-icon">🔑</span>
-        Login with Google
-      </button>
-    {% elseif provider == 'github' %}
-      <button id="github-login-btn" class="button button--primary appwrite-login-github">
-        <span class="login-icon">🔑</span>
-        Login with GitHub
-      </button>
-    {% endif %}
-    
     <!-- Message containers -->
     <div id="loading-message" class="message message--status" style="display: none;"></div>
     <div id="error-message" class="message message--error" style="display: none;"></div>

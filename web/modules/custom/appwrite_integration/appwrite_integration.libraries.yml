@@ -5,3 +5,4 @@ appwrite_oauth:
   dependencies:
     - core/drupal
     - core/jquery
+  header: true

@@ -1,25 +1,68 @@
-appwrite_integration.config:
-  path: '/admin/config/services/appwrite'
+appwrite_integration.settings:
+  path: '/admin/config/services/appwrite-integration'
   defaults:
     _form: '\Drupal\appwrite_integration\Form\AppwriteConfigForm'
     _title: 'Appwrite Integration Settings'
   requirements:
     _permission: 'administer site configuration'
 
-appwrite_integration.success:
-  path: '/appwrite/success'
+# General login route that takes {provider} as a parameter
+appwrite_integration.oauth_login:
+  path: '/appwrite/{provider}/login'
   defaults:
-    _controller: '\Drupal\appwrite_integration\Controller\AuthController::success'
-    _title: 'OAuth Success'
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::login'
+    _title_callback: '\Drupal\appwrite_integration\Controller\AuthController::loginTitle'
   requirements:
     _permission: 'access content'
-  methods: [POST]
+    provider: 'google|github'
 
-  
-appwrite_integration.bridge:
-  path: '/appwrite/bridge'
+# Dashboard
+appwrite_integration.dashboard:
+  path: '/appwrite/dashboard'
   defaults:
-    _controller: '\Drupal\appwrite_integration\Controller\BridgeController::bridge'
-    _title: 'Appwrite Token Bridge'
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::dashboard'
+    _title: 'Dashboard'
   requirements:
     _permission: 'access content'
+
+# OAuth callback
+appwrite_integration.auth_callback:
+  path: '/appwrite/auth/callback'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::authCallback'
+    _title: 'Authenticating…'
+  requirements:
+    _permission: 'access content'
+
+# Logout (just a landing page; JS does the work)
+appwrite_integration.logout:
+  path: '/appwrite/logout'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::logout'
+    _title: 'Logging out…'
+  requirements:
+    _permission: 'access content'
+
+appwrite_integration.webhook.users:
+  path: '/appwrite/webhook/users'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteWebhookController::handleUserWebhook'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+
+appwrite_integration.webhook.health:
+  path: '/appwrite/webhook/health'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteWebhookController::healthCheck'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+appwrite_integration.finalize_login:
+  path: '/appwrite/oauth/finalize-login'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AuthController::finalizeLogin'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'

@@ -11,12 +11,10 @@ database:
     version: "10.11"
 use_dns_when_possible: true
 composer_version: "2"
-web_environment:
-  - APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
-  - APPWRITE_PROJECT_ID=683700db0032c6996d72
 
 corepack_enable: false
 default_container_timeout: "240"
+use_mutagen: false
 
 # Key features of DDEV's config.yaml:
 

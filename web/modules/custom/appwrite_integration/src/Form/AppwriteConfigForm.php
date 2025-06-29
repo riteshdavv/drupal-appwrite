@@ -96,6 +96,22 @@ class AppwriteConfigForm extends ConfigFormBase {
       '#description' => $this->t('Secret key for webhook signature verification'),
     ];
 
+    // Storage Settings
+
+    $form['storage'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Storage Integration Settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    ];    
+
+    $form['storage']['bucket_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Appwrite Storage Bucket ID'),
+      '#description' => $this->t('Enter the default bucket ID to use for uploads and file listing.'),
+      '#default_value' => $config->get('bucket_id'),
+      '#required' => TRUE,
+    ];
 
     // OAuth Settings
     $form['oauth'] = [
@@ -321,6 +337,7 @@ class AppwriteConfigForm extends ConfigFormBase {
       ->set('endpoint', $values['endpoint'])
       ->set('project_id', $values['project_id'])
       ->set('webhook_secret', $values['webhook_secret'])
+      ->set('bucket_id', $form_state->getValue('bucket_id'))
       ->set('github_client_id', $values['github_client_id'])
       ->set('google_client_id', $values['google_client_id'])
       ->set('auto_sync_enabled', $values['auto_sync_enabled'])

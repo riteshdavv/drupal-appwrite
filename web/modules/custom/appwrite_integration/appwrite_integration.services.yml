@@ -18,3 +18,10 @@ services:
     arguments: ['@appwrite_integration.user_role_mapper']
     tags:
       - { name: plugin.manager.queue_worker }
+
+services:
+  appwrite_integration.storage:
+    class: Drupal\appwrite_integration\Service\AppwriteStorageService
+    arguments:
+      - '@config.factory'
+      - '@messenger'

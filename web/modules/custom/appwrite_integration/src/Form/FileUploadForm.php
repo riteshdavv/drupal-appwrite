@@ -59,10 +59,11 @@ class FileUploadForm extends FormBase {
 
     $validators = ['FileExtension' => []]; // Allow all extensions
 
-    while (true) {
+    while (isset($_FILES['files']['name']['upload_files'][$index])) {
       $file = file_save_upload('upload_files', $validators, FALSE, $index);
       if (!$file) {
-        break;
+        $index++;
+        continue;
       }
 
       $file_path = $file->getFileUri();

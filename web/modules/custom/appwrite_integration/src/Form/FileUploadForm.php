@@ -60,8 +60,7 @@ class FileUploadForm extends FormBase {
     $validators = ['FileExtension' => []]; // Allow all extensions
 
     while (true) {
-      // file_save_upload() will return false if index exceeds the number of files
-      $file = file_save_upload('upload_file', $validators, FALSE, $index);
+      $file = file_save_upload('upload_files', $validators, FALSE, $index);
       if (!$file) {
         break;
       }
@@ -92,5 +91,6 @@ class FileUploadForm extends FormBase {
       $this->messenger()->addError($this->t('🚫 No files received or all failed.'));
     }
   }
+
 
 }

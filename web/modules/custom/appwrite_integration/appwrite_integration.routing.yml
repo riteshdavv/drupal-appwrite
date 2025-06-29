@@ -83,7 +83,7 @@ appwrite_integration.file_list:
   requirements:
     _permission: 'administer site configuration'
 
-    appwrite_integration.file_view:
+appwrite_integration.file_view:
   path: '/appwrite/file/view/{file_id}'
   defaults:
     _controller: '\Drupal\appwrite_integration\Controller\AppwriteStorageController::viewFile'

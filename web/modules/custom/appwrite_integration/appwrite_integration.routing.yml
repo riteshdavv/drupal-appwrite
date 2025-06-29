@@ -66,3 +66,43 @@ appwrite_integration.finalize_login:
   methods: [POST]
   requirements:
     _access: 'TRUE'
+
+appwrite_integration.file_upload:
+  path: '/admin/appwrite/upload'
+  defaults:
+    _form: '\Drupal\appwrite_integration\Form\FileUploadForm'
+    _title: 'Upload File to Appwrite'
+  requirements:
+    _permission: 'administer site configuration'
+
+appwrite_integration.file_list:
+  path: '/admin/appwrite/files'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteStorageController::listFiles'
+    _title: 'List Files'
+  requirements:
+    _permission: 'administer site configuration'
+
+appwrite_integration.file_download:
+  path: '/admin/appwrite/files/download/{file_id}'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteStorageController::downloadFile'
+    _title: 'Download File'
+  requirements:
+    _permission: 'administer site configuration'
+
+appwrite_integration.file_delete:
+  path: '/admin/appwrite/files/delete/{file_id}'
+  defaults:
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteStorageController::deleteFile'
+    _title: 'Delete File'
+  requirements:
+    _permission: 'administer site configuration'
+
+appwrite_integration.bulk_delete:
+  path: '/admin/appwrite/files/delete'
+  defaults:
+    _form: '\Drupal\appwrite_integration\Form\AppwriteFileDeleteForm'
+    _title: 'Delete Appwrite Files'
+  requirements:
+    _permission: 'administer site configuration'

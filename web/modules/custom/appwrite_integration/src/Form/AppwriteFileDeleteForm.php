@@ -42,27 +42,48 @@ class AppwriteFileDeleteForm extends FormBase {
       return ['#markup' => $this->t('No files available for deletion.')];
     }
 
-    $options = [];
-    foreach (array_reverse($files) as $file) {
-      $options[$file['$id']] = [
-        'id' => $file['$id'],
-        'name' => $file['name'],
-        'size' => sprintf("%.2f KB", $file['sizeOriginal'] / 1024),
-        'type' => $file['mimeType'],
-      ];
-    }
-
     $form['files'] = [
       '#type' => 'tableselect',
       '#header' => [
         'id' => $this->t('File ID'),
+        'preview' => $this->t('Preview'),
         'name' => $this->t('Name'),
         'size' => $this->t('Size'),
         'type' => $this->t('Type'),
+        'created' => $this->t('Created'),
       ],
-      '#options' => $options,
+      '#options' => [],
       '#empty' => $this->t('No files available for deletion.'),
     ];
+
+    foreach (array_reverse($files) as $file) {
+      $is_image = str_starts_with($file['mimeType'], 'image/');
+      $preview = $is_image
+        ? '<img src="' . \Drupal\Core\Url::fromRoute('appwrite_integration.file_view', ['file_id' => $file['$id']])->toString() . '" style="max-height:40px;" />'
+        : '-';
+
+      $created_timestamp = strtotime($file['$createdAt']);
+      $created_relative = \Drupal::service('date.formatter')->formatTimeDiffSince($created_timestamp);
+      $created_str = $created_relative . ' ago';
+
+      $size = $file['sizeOriginal'] >= 1048576
+        ? sprintf("%.2f MB", $file['sizeOriginal'] / 1048576)
+        : sprintf("%.2f KB", $file['sizeOriginal'] / 1024);
+
+      $form['files']['#options'][$file['$id']] = [
+        'id' => $file['$id'],
+        'preview' => [
+          'data' => [
+            '#type' => 'inline_template',
+            '#template' => $preview,
+          ],
+        ],
+        'name' => $file['name'],
+        'size' => $size,
+        'type' => $file['mimeType'],
+        'created' => $created_str,
+      ];
+    }
 
     $form['submit'] = [
       '#type' => 'submit',

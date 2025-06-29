@@ -19,7 +19,6 @@ services:
     tags:
       - { name: plugin.manager.queue_worker }
 
-services:
   appwrite_integration.storage:
     class: Drupal\appwrite_integration\Service\AppwriteStorageService
     arguments:

@@ -86,7 +86,7 @@ appwrite_integration.file_list:
 appwrite_integration.file_view:
   path: '/appwrite/file/view/{file_id}'
   defaults:
-    _controller: '\Drupal\appwrite_integration\Controller\AppwriteStorageController::viewFile'
+    _controller: '\Drupal\appwrite_integration\Controller\AppwriteStorageController::getFileView'
     _title: 'View File'
   requirements:
     _permission: 'access content'

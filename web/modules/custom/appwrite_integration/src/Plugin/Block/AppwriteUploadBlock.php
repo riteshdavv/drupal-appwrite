@@ -19,7 +19,7 @@ class AppwriteUploadBlock extends BlockBase {
 
     $markup = '
       <div class="appwrite-files-buttons">
-        <a href="' . $upload_file_url . '"><button class="button appwrite-upload">Upload File</button></a>
+        <a href="' . $upload_file_url . '"><button class="button appwrite-upload">' . $this->t('Upload File') . '</button></a>
       </div>
     ';
 

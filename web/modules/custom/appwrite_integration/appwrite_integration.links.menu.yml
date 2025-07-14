@@ -6,12 +6,28 @@ appwrite_integration.settings_link:
   weight: 100
   menu_name: admin
 
+appwrite_integration.google_login:
+  title: 'Login with Google'
+  route_name: appwrite_integration.oauth_login
+  route_parameters:
+    provider: 'google'
+  menu_name: main
+  weight: 110
+
+appwrite_integration.github_login:
+  title: 'Login with GitHub'
+  route_name: appwrite_integration.oauth_login
+  route_parameters:
+    provider: 'github'
+  menu_name: main
+  weight: 120
+
 appwrite_integration.dashboard_link:
   title: 'Appwrite Dashboard'
   description: 'View Appwrite user session & linked info'
   route_name: appwrite_integration.dashboard
   parent: system.admin_config_services
-  weight: 110
+  weight: 130
   menu_name: admin
 
 appwrite_integration.upload_link:
@@ -19,11 +35,11 @@ appwrite_integration.upload_link:
   description: 'Upload a file to Appwrite storage'
   route_name: appwrite_integration.file_upload
   parent: system.admin_config_services
-  weight: 120
+  weight: 140
 
 appwrite_integration.file_list_link:
   title: 'List Files'
   description: 'Lists the uploaded files'
   route_name: appwrite_integration.file_list
   parent: system.admin_config_services
-  weight: 130
+  weight: 150

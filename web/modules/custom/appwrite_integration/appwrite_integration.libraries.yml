@@ -1,10 +1,10 @@
 appwrite-auth:
+  version: 1.x
   js:
     js/appwrite-auth.js: {}
   dependencies:
     - core/drupal
     - core/jquery
-  header: true
 
 appwrite-login:
   version: 1.x

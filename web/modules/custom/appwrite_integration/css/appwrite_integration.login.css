@@ -1,0 +1,68 @@
+.appwrite-login-page {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.login-container {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.appwrite-login-google,
+.appwrite-login-github {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.appwrite-login-google {
+  background: #4285f4;
+  color: white;
+}
+
+.appwrite-login-google:hover {
+  background: #357ae8;
+}
+
+.appwrite-login-github {
+  background: #333;
+  color: white;
+}
+
+.appwrite-login-github:hover {
+  background: #24292e;
+}
+
+.login-icon {
+  margin-right: 8px;
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

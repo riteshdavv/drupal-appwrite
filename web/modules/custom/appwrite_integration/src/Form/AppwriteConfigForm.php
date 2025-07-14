@@ -69,7 +69,7 @@ class AppwriteConfigForm extends ConfigFormBase {
       '#type' => 'url',
       '#title' => $this->t('Appwrite Endpoint'),
       '#default_value' => $config->get('endpoint'),
-      '#description' => $this->t('Your Appwrite server endpoint (e.g., https://appwrite.example.com/v1)'),
+      '#description' => $this->t('Your Appwrite server endpoint, replace the project id in here with yours. (https://cloud.appwrite.io/console/PROJECT_ID/settings)'),
       '#required' => TRUE,
     ];
 
@@ -77,7 +77,7 @@ class AppwriteConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Project ID'),
       '#default_value' => $config->get('project_id'),
-      '#description' => $this->t('Your Appwrite project ID'),
+      '#description' => $this->t('Your Appwrite project ID, it is present in the Appwrite Console Settings. (https://cloud.appwrite.io/console/PROJECT_ID/settings)'),
       '#required' => TRUE,
     ];
 
@@ -85,8 +85,8 @@ class AppwriteConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('API Key'),
       '#default_value' => $config->get('api_key'),
-      '#description' => $this->t('Your Appwrite API key with users.read permission'),
-      '#attributes' => ['autocomplete' => 'off'],
+      '#description' => $this->t('Your Appwrite API key with customized permissions. (https://cloud.appwrite.io/console/PROJECT_ID/overview/keys)'),
+      '#required' => TRUE,
     ];
 
     $form['connection']['webhook_secret'] = [
@@ -108,7 +108,7 @@ class AppwriteConfigForm extends ConfigFormBase {
     $form['storage']['bucket_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Appwrite Storage Bucket ID'),
-      '#description' => $this->t('Enter the default bucket ID to use for uploads and file listing.'),
+      '#description' => $this->t('Enter the default bucket ID to use for uploads and file listing. (https://cloud.appwrite.io/console/PROJECT_ID/storage)'),
       '#default_value' => $config->get('bucket_id'),
       '#required' => TRUE,
     ];
@@ -343,14 +343,8 @@ class AppwriteConfigForm extends ConfigFormBase {
       ->set('auto_sync_enabled', $values['auto_sync_enabled'])
       ->set('sync_frequency', $values['sync_frequency'])
       ->set('default_role', $values['default_role'])
+      ->set('api_key', $values['api_key'])
       ->save();
-
-    // Save API keys only if they're provided
-    if (!empty($values['api_key'])) {
-      $this->config('appwrite_integration.settings')
-        ->set('api_key', $values['api_key'])
-        ->save();
-    }
 
     if (!empty($values['github_client_secret'])) {
       $this->config('appwrite_integration.settings')

@@ -19,7 +19,7 @@ class AppwriteFilesListBlock extends BlockBase {
 
     $markup = '
       <div class="appwrite-files-buttons">
-        <a href="' . $list_files_url . '"><button class="button appwrite-list-files">Files List</button></a>
+        <a href="' . $list_files_url . '"><button class="button appwrite-list-files">' . $this->t('List Files') . '</button></a>
       </div>
     ';
 

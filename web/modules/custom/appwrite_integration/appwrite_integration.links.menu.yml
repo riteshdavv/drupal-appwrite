@@ -1,0 +1,29 @@
+appwrite_integration.settings_link:
+  title: 'Appwrite Integration Settings'
+  description: 'Configure Appwrite credentials and sync options'
+  route_name: appwrite_integration.settings
+  parent: system.admin_config_services
+  weight: 100
+  menu_name: admin
+
+appwrite_integration.dashboard_link:
+  title: 'Appwrite Dashboard'
+  description: 'View Appwrite user session & linked info'
+  route_name: appwrite_integration.dashboard
+  parent: system.admin_config_services
+  weight: 110
+  menu_name: admin
+
+appwrite_integration.upload_link:
+  title: 'Appwrite Upload'
+  description: 'Upload a file to Appwrite storage'
+  route_name: appwrite_integration.file_upload
+  parent: system.admin_config_services
+  weight: 120
+
+appwrite_integration.file_list_link:
+  title: 'List Files'
+  description: 'Lists the uploaded files'
+  route_name: appwrite_integration.file_list
+  parent: system.admin_config_services
+  weight: 130

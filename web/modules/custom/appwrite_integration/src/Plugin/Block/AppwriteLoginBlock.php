@@ -24,10 +24,15 @@ class AppwriteLoginBlock extends BlockBase {
 
     $markup = '
       <div class="appwrite-login-buttons">
-        <a href="' . $google_url . '"><button class="button appwrite-login-google">Login with Google</button></a>
-        <a href="' . $github_url . '"><button class="button appwrite-login-github">Login with GitHub</button></a>
+        <a href="' . $google_url . '">
+          <button class="button appwrite-login-google">' . $this->t('Login with Google') . '</button>
+        </a>
+        <a href="' . $github_url . '">
+          <button class="button appwrite-login-github">' . $this->t('Login with GitHub') . '</button>
+        </a>
       </div>
     ';
+
 
     return [
       '#markup' => $markup,

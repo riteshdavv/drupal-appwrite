@@ -5,3 +5,21 @@ appwrite-auth:
     - core/drupal
     - core/jquery
   header: true
+
+appwrite-login:
+  version: 1.x
+  css:
+    theme:
+      css/appwrite_integration.login.css: {}
+
+appwrite-dashboard:
+  version: 1.x
+  css:
+    theme:
+      css/appwrite_integration.dashboard.css: {}
+
+appwrite-oauth-callback:
+  version: 1.x
+  css:
+    theme:
+      css/appwrite_integration.oauth_callback.css: {}

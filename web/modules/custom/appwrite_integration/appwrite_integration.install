@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function appwrite_integration_schema() {
+  $schema['appwrite_node_sync_map'] = [
+    'description' => 'Stores sync metadata for Drupal → Appwrite content.',
+    'fields' => [
+      'nid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Node ID',
+      ],
+      'document_id' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => 'Appwrite Document ID',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 16,
+        'default' => 'pending',
+        'description' => 'Sync status: success, failed, pending',
+      ],
+      'last_synced' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'Unix timestamp of last sync',
+      ],
+      'error_message' => [
+        'type' => 'text',
+        'not null' => FALSE,
+        'description' => 'Last error message if sync failed',
+      ],
+    ],
+    'primary key' => ['nid'],
+  ];
+
+  return $schema;
+}

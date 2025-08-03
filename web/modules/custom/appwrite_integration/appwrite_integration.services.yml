@@ -24,3 +24,7 @@ services:
     arguments:
       - '@config.factory'
       - '@messenger'
+
+  appwrite_integration.document:
+    class: Drupal\appwrite_integration\Service\AppwriteDocumentService
+    arguments: ['@config.factory', '@messenger']

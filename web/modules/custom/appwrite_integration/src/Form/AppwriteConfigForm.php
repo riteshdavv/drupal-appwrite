@@ -113,6 +113,47 @@ class AppwriteConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    //  Document Sync Section
+
+    $form['database_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Appwrite Database ID'),
+      '#default_value' => $config->get('database_id'),
+      '#required' => TRUE,
+    ];
+
+    $form['collection_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Appwrite Collection ID'),
+      '#default_value' => $config->get('collection_id'),
+      '#required' => TRUE,
+    ];
+
+    $form['enable_document_sync'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable Document Database Sync'),
+      '#default_value' => $config->get('enable_document_sync'),
+    ];
+
+    $content_types = NodeType::loadMultiple();
+    $options = [];
+    foreach ($content_types as $type) {
+      $options[$type->id()] = $type->label();
+    }
+
+    $form['sync_content_types'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Content Types to Sync'),
+      '#description' => $this->t('Select which content types should be synced to Appwrite Document DB.'),
+      '#options' => $options,
+      '#default_value' => $config->get('sync_content_types') ?: [],
+      '#states' => [
+        'visible' => [
+          ':input[name="enable_document_sync"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
     // OAuth Settings
     $form['oauth'] = [
       '#type' => 'fieldset',
@@ -338,6 +379,10 @@ class AppwriteConfigForm extends ConfigFormBase {
       ->set('project_id', $values['project_id'])
       ->set('webhook_secret', $values['webhook_secret'])
       ->set('bucket_id', $form_state->getValue('bucket_id'))
+      ->set('database_id', $form_state->getValue('database_id'))
+      ->set('collection_id', $form_state->getValue('collection_id'))
+      ->set('enable_document_sync', $form_state->getValue('enable_document_sync'))
+      ->set('sync_content_types', array_filter($form_state->getValue('sync_content_types')))
       ->set('github_client_id', $values['github_client_id'])
       ->set('google_client_id', $values['google_client_id'])
       ->set('auto_sync_enabled', $values['auto_sync_enabled'])

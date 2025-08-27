@@ -1,14 +1,14 @@
-# 🧩 Drupal-Appwrite Integration Module
+# Appwrite-Drupal Integration Module
 
 ![GSoC 2025](https://img.shields.io/badge/GSoC-2025-blue?logo=google)
 ![Drupal](https://img.shields.io/badge/Built%20For-Drupal-blue?logo=drupal)
 ![Appwrite](https://img.shields.io/badge/Powered%20By-Appwrite-F02E65?logo=appwrite)
 
-A Google Summer of Code 2025 project integrating modern Appwrite backend services with Drupal. Built to empower developers with seamless OAuth login, cloud-native file storage, and document sync capabilities — all configurable from within Drupal.
+A Google Summer of Code 2025 project integrating modern Appwrite backend services with Drupal. Built to empower developers with seamless OAuth login, cloud-native file storage, and document sync capabilities; all configurable from within Drupal.
 
 ---
 
-## 🚀 Project Overview
+## Project Overview
 
 This module bridges the Drupal CMS with the Appwrite Backend-as-a-Service (BaaS) platform. 
 
@@ -21,7 +21,7 @@ It allows developers to:
 
 ---
 
-## 💡 Why This Matters
+## Why This Matters
 
 Drupal has long been a CMS powerhouse, but it lacks built-in integrations for modern BaaS platforms. 
 
@@ -36,80 +36,150 @@ This project fills that gap by:
 
 ---
 
-## 🌐 Live Demo (Planned)
+## Features
 
-A hosted showcase site demonstrating login, storage, and content sync flows using Drupal + Appwrite.
+- **OAuth Authentication** via Appwrite (e.g., GitHub, Google login flows).
+- **Bi-directional User Sync** between Drupal and Appwrite (session + logout).
+- **Storage API Integration**: upload, list, and manage files in Appwrite buckets directly from Drupal.
+- **Document Database Integration**:
+  - One-way sync (Drupal → Appwrite) for configured content types.
+  - Retrieval (Appwrite → Drupal) for documents/blocks.
+  - Mapping system between Node IDs and Appwrite Document IDs.
+  - Sync log with status and error messages.
+- **Permissions Integration**:
+  - `sync content to appwrite`
+  - `view appwrite documents`
+  - `administer appwrite sync logs`
+- **Responsive Configuration UI** for admins (mobile/tablet friendly).
+- Fully tested across **Lando, DDEV, and Docker** environments.
 
 ---
 
-## 🎯 Key Features
-
-- 🔐 OAuth2 login via Appwrite (Google, GitHub, Apple, etc.)
-- 👥 User session mapping between Appwrite and Drupal
-- 🗂️ Media uploads handled by Appwrite's bucket-based storage
-- 📄 Sync Drupal content nodes to Appwrite’s document DB
-- ⚙️ Admin configuration panel for all Appwrite credentials and toggles
-- 🧪 Built-in test mode and debug logging for integration issues
-- 🔌 Modular, extensible architecture using Drupal services and DI
-
----
-
-## 📦 Installation
-
-### Requirements
+## Requirements
 
 - Drupal 10+
 - PHP 8.1+
 - Composer
 - Appwrite (self-hosted or cloud)
 
-### Steps
+---
 
+## Installation
+
+### Steps:
+
+1. **Clone the repository** into your Drupal `modules/custom` directory:
+
+  ```bash
+   cd web/modules/custom
+   git clone https://github.com/riteshdavv/drupal-appwrite.git appwrite_integration
+   ```
+
+2. **Install dependencies:**
+
+  ``` bash
+  composer require appwrite/appwrite
+  ```
+
+3. **Enable the module:**
+  ```bash
+  drush en appwrite_integration
+  drush cr
+  ```
+
+### Configuration:
+
+1. Go to: &nbsp; **Admin → Configuration → Web Services → Appwrite Integration**
+
+2. Enter your Appwrite details:
+
+- Appwrite Endpoint (e.g., **https://fra.cloud.appwrite.io/v1**)
+- Project ID
+- API Key (with necessary scopes)
+- Bucket ID
+
+3. Select which content types should sync to Appwrite.
+
+4. Assign permissions via: &nbsp; **People → Roles → Permissions**
+
+---
+
+## Walkthrough Demos
+
+- This Google Drive folder contains all walkthrough demonstration videos related to the authentication, storage, and document database integration features of the Appwrite-Drupal integration module.
+- [View here](https://drive.google.com/drive/folders/11vahfSDrYrMhY2ISYNtwfB8Dn5vSSBdT)
+
+---
+
+## Final Term Submission - GitHub Gist
+
+- This GitHub Gist serves as a consolidated record of all weekly reports, documented learning outcomes, community and ecosystem impact, as well as the proposed future work related to this project.
+- [View here](https://gist.github.com/riteshdavv/a4530c8e44162db6a3e3ac64ab8c3b25)
+
+---
+
+## Usage Guide
+
+### Content Sync
+
+- When a node of a sync-enabled content type is created/updated/deleted → it will sync automatically with Appwrite Document DB.
+- Sync logs are available at: &nbsp; **Admin → Content → Appwrite Sync Logs**
+
+### Document Retrieval
+
+- Appwrite documents can be retrieved via route: 
+  ```bash
+  /appwrite/document/{databaseId}/{collectionId}/{documentId}
+  ```
+
+### Storage Integration
+
+- Create and manage buckets.
+- Upload, list, and download files from Appwrite within Drupal.
+
+---
+
+## Testing
+
+The module includes PHPUnit unit tests with Appwrite SDK mocks/stubs.
+
+**Run tests:**
 ```bash
-composer require drupal/appwrite_integration
-drush en appwrite_integration
+./vendor/bin/phpunit --group appwrite_integration
 ```
 
-Then, configure the module at /admin/config/appwrite:
-- Appwrite Project ID
-- API Endpoint
-- API Key
-- OAuth Providers
-- Bucket ID
-- Document sync options
+The module has been validated in:
+- Lando
+- DDEV
+- Docker Compose
 
 ---
 
-## 🧪 Usage Guide
-
-- Visit /appwrite/login to authenticate via Google, GitHub, etc.
-- On successful login, the user is redirected to a custom dashboard.
-- Uploaded media files are stored in Appwrite buckets.
-- Selected content types are synced with Appwrite documents.
-- Visit /appwrite/logout to securely end sessions.
-
----
-
-## 💬 Community & Contribution
+## Community & Contribution
 This module is developed as part of GSoC 2025 under the Drupal organization and the mentorship of Appwrite contributors.
 
 ### How to Contribute
-- ⭐ Star the repo
-- 🐛 File issues for bugs or suggestions
-- 🚀 Submit a pull request
-- 📣 Share your use case with us
+- Fork the repository
+- Create a feature branch
+- Submit a pull request
+- Share your use case with us
 
 ### Maintainer
 - Ritesh Kumar Singh
-  - https://riteshsingh.vercel.app
-  - GitHub: @riteshdavv
+  - GitHub: https://github.com/riteshdavv
+  - LinkedIn: https://linkedin.com/in/riteshdavv
+  - Portfolio: https://riteshsingh.vercel.app
   - Drupal.org: riteshdavv
   - Email: ritesh.davv@gmail.com
 
 ---
 
 ## Acknowledgements
-- 🧠 Mentors: Abhinav Jha, Ujjval Kumar
-- 🛠️ Organization: Appwrite
-- 🌍 Host Community: Drupal
-- ❤️ GSoC 2025 & Open Source community
+
+Special thanks to the Drupal community and GSoC mentors for guidance.
+- Mentors: Abhinav Jha, Ujjval Kumar
+- Organization: Appwrite
+- Host Community: Drupal
+- GSoC 2025 & Open Source community
+
+
